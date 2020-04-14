@@ -19,6 +19,7 @@ function RightMenu(props) {
     });
   };
 
+  // 로그인 안 한 사람들
   if (user.userData && !user.userData.isAuth) {
     return (
       <Menu mode={props.mode}>
@@ -30,9 +31,12 @@ function RightMenu(props) {
         </Menu.Item>
       </Menu>
     )
-  } else {
+  } else {  // 로그인 한 사람들
     return (
       <Menu mode={props.mode}>
+        <Menu.Item key="upload">
+          <a href="/video/upload">Video</a>
+        </Menu.Item>
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
