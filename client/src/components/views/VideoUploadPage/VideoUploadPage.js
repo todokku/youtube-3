@@ -28,6 +28,9 @@ function VideoUploadPage() {
     const [description, setDescription] = useState("");
     const [access, setAccess] = useState(0);  // 기본 값은 0으로 설정! (private : 0, public : 1)
     const [category, setCategory] = useState("Film & Animation");
+    const [filePath, setFilePath] = useState("");
+    const [duration, setDuration] = useState("");
+    const [thumbnailPath, setThumbnailPath] = useState("");
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value);
@@ -54,10 +57,28 @@ function VideoUploadPage() {
             header: {'content-type': 'multipart/form-data'}
         };
 
-        axios.post('http://localhost:5000/api/video/uploadfiles', formData, config)
+        axios.post('/api/video/uploadfiles', formData, config)
         .then(response => {
             if(response.data.success) {
                 console.log(response.data);
+
+                let variable = {
+                    url: response.data.url,
+                    fileName: response.data.fileName
+                };
+
+                setFilePath(response.data.url);
+
+                // 썸네일 요청!
+                axios.post('/api/video/thumbnail', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setDuration(response.data.fileDuration);
+                        setThumbnailPath(response.data.url);
+                    } else {
+                        alert('썸네일 생성에 실패 했습니다.');
+                    }
+                });
             } else {
                 alert('비디오 업로드를 실패했습니다.');
             }
@@ -65,7 +86,7 @@ function VideoUploadPage() {
         .catch(error => {
             console.log(error)
         });
-    }
+    };
 
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -90,9 +111,15 @@ function VideoUploadPage() {
                     )}  
                     </DropZone>
                     {/* Thumbnail */}
-                    <div>
-                        <img src alt />
-                    </div>
+                    {/* 썸네일 자원 경로가 있을 때에만 이미지 띄우기! 그렇지 않으면 엑박이 뜬다. */}
+                    {thumbnailPath && 
+                        <div>
+                            <img 
+                                src={`http://localhost:5000/${thumbnailPath}`} // 현재 클라이언트와 다른 주소로 서버가 사용되므로 앞에 도메인 명시!
+                                alt="thumbnail" 
+                            />
+                        </div>
+                    }
                 </div>
 
                 <br />
