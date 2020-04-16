@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const { Video } = require("../models/Video");
+const { Video } = require("../models/Video");
 
 const { auth } = require("../middleware/auth");
 const multer = require('multer');
@@ -68,21 +68,15 @@ router.post('/thumbnail', (req, res) => {
 
     // 비디오 정보 가져오기
     ffmpeg.ffprobe(req.body.url, function(err, metadata) {
-        console.dir(metadata);  // all metadata
-        console.log(metadata.format.duration);
         fileDuration = metadata.format.duration;
     })
 
     // 썸네일 생성! on 함수를 통해 해당 객체에 이벤트를 연결한다.
     ffmpeg(req.body.url)    // 클라이언트로부터 온 비디오 저장 경로
     .on('filenames', function(filenames) {  // 비디오 썸네일 파일 이름 생성 이벤트
-        console.log('Will generate ' + filenames.join(', '))
-        console.log('filenames : ', filenames);
-
         filePath = "uploads/thumbnails/" + filenames[0];
     })
     .on('end', function() {     // 썸네일 생성 완료 시에 무엇을 할 것인지의 이벤트
-        console.log('Screenshots taken');
         return res.json({
             success: true,
             url: filePath,
@@ -103,6 +97,23 @@ router.post('/thumbnail', (req, res) => {
         size: '320x240',
         filename: 'thumbnail-%b.png'    // %b : 확장자를 제거한 파일의 원래 이름
     });
-})
+});
+
+
+/* MongoDB에 비디오 정보를 저장한다. */
+router.post('/uploadVideo', (req, res) => {
+    console.log('/uploadVideo');
+    console.log('req.body : ', req.body);
+    // 클라이언트가 보낸 json 데이터에 맞춰 그 정보를 해당 컬럼에 저장한다.
+    const video = new Video(req.body);
+
+    video.save( (err, doc) => {
+        if(err) return res.json({ success: false, err });
+
+        console.log("video save success !!");
+        res.status(200).json({ success: true });
+    });
+});
+
 
 module.exports = router;

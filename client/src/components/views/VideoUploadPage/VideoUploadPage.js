@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import DropZone from 'react-dropzone';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -22,8 +23,9 @@ const categoryOptions = [
     {value: 3, label: "Pets & Animals"}
 ];
 
-function VideoUploadPage() {
-    // 함수 기반 컴포넌트에서의 state 변수 관리!
+function VideoUploadPage(props) {
+    /* 함수 기반 컴포넌트에서의 state 변수 관리! */
+    const user = useSelector(state => state.user);  // 로그인된 user 정보(redux가 state에 관리)를 user 변수에 담는다.
     const [videoTitle, setVideoTitle] = useState("");
     const [description, setDescription] = useState("");
     const [access, setAccess] = useState(0);  // 기본 값은 0으로 설정! (private : 0, public : 1)
@@ -32,6 +34,7 @@ function VideoUploadPage() {
     const [duration, setDuration] = useState("");
     const [thumbnailPath, setThumbnailPath] = useState("");
 
+    /* 이벤트 함수들 정의! */
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value);
     };
@@ -88,13 +91,43 @@ function VideoUploadPage() {
         });
     };
 
+    const onSubmit = (e) => {
+        // 기존 이벤트 방지하고 아래에 우리가 정의한 하고 싶은 이벤트가 실행된다.
+        e.preventDefault();
+
+        const variables = {
+            // writer: user.userData._id,
+            title: videoTitle,
+            description: description,
+            privacy: access,
+            filePath: filePath,
+            category: category,
+            duration: duration,
+            thumbnail: thumbnailPath
+        };
+
+        axios.post('/api/video/uploadVideo', variables)
+        .then(response => {
+            if(response.data.success) {
+                message.success("성공적으로 업로드를 했습니다.");
+
+                // 업로드 성공했으므로 3초 후 리다이렉트
+                setTimeout( () => {
+                    props.history.push('/');
+                }, 3000);
+            } else {
+                alert('비디오 업로드에 실패 했습니다');
+            }
+        })
+    }
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <Title level={2}>VideoUploadPage</Title>
             </div>
 
-            <Form onSubmit>
+            <Form onSubmit={onSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Drop zone */}
                     <DropZone
@@ -156,7 +189,7 @@ function VideoUploadPage() {
                 <br />
                 <br />
 
-                <Button type="primary" size="large" onClick>
+                <Button type="primary" size="large" onClick={onSubmit}>
                     Submit
                 </Button>
             </Form>
