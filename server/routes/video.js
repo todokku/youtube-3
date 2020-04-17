@@ -30,7 +30,7 @@ const upload = multer({
 //             Video
 //=================================
 
-/* 클라이언트에서 받은 비디오 파일을 노드 서버에 저장한다. */
+/* 클라이언트에서 받은 비디오 파일을 노드 서버 storage에 저장한다. */
 router.post('/uploadfiles', (req, res) => {
     upload(req, res, (err) => {
         // 파일 필터링
@@ -92,7 +92,7 @@ router.post('/thumbnail', (req, res) => {
     })
     .screenshot({
         // 옵션을 줄 수 있다.
-        count: 3,   // 3개의 썸네일을 찍을 수 있다.
+        count: 1,   // 1개의 썸네일을 찍을 수 있다.
         folder: 'uploads/thumbnails',   // 해당 폴더 안에 썸네일이 저장될 것이다.
         size: '320x240',
         filename: 'thumbnail-%b.png'    // %b : 확장자를 제거한 파일의 원래 이름

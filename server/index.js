@@ -15,7 +15,6 @@ const config = require("./config/dev");
 //   .catch(err => console.error(err));
 
 const mongoose = require("mongoose");
-console.log('config.mongoURI : ', config.mongoURI);
 function connect() { mongoose.connect(config.mongoURI,
   {
     useNewUrlParser: true, useUnifiedTopology: true,

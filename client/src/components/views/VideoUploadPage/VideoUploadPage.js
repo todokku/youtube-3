@@ -96,7 +96,7 @@ function VideoUploadPage(props) {
         e.preventDefault();
 
         const variables = {
-            // writer: user.userData._id,
+            writer: user.userData._id,
             title: videoTitle,
             description: description,
             privacy: access,
@@ -111,7 +111,7 @@ function VideoUploadPage(props) {
             if(response.data.success) {
                 message.success("성공적으로 업로드를 했습니다.");
 
-                // 업로드 성공했으므로 3초 후 리다이렉트
+                // 업로드 성공했으므로 3초 후 홈으로 리다이렉트
                 setTimeout( () => {
                     props.history.push('/');
                 }, 3000);
