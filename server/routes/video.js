@@ -116,7 +116,7 @@ router.post('/uploadVideo', (req, res) => {
 });
 
 
-/* 비디오를 DB에서 가져와서 클라이언트에 보낸다. */
+/* DB에 저장된 비디오들을 가져와서 클라이언트에 보낸다. */
 router.get('/getVideos', (req, res) => {
     // DB의 Video 테이블에서 찾는 쿼리이다.
     Video.find()
@@ -133,8 +133,28 @@ router.get('/getVideos', (req, res) => {
             success: true,
             videos
         });
-    })
-
+    });
 });
+
+
+/* 사용자가 클릭한 특정 비디오 정보를 가져온다. */
+router.post('/getVideoDetail', (req, res) => {
+    // _id 애트리뷰트를 이용해서 찾겠다.
+    Video.findOne({"_id" : req.body.videoId})
+    .populate("writer")
+    .exec((err, videoDetail) => {
+        if(err) {
+            return res.status(400).json({
+                success: false,
+                err
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            videoDetail
+        });
+    });
+})
 
 module.exports = router;

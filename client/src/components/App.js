@@ -8,10 +8,11 @@ import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import VideoUploadPage from "./views/VideoUploadPage/VideoUploadPage";
+import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage";
 
-//null   아무나 접근 가능
-//true   로그인 한 사람만 들어간다.
-//false  로그인 한 사람은 들어가지 못한다.
+//  null   아무나 접근 가능
+//  true   로그인 한 사람만 들어간다.
+//  false  로그인 한 사람은 들어가지 못한다.
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route exact path="/" component={Auth(LandingPage, null)} />  
           <Route exact path="/login" component={Auth(LoginPage, false)} />  
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />  
+          <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />
+          <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />  
         </Switch>
       </div>
       <Footer />
