@@ -20,9 +20,27 @@ let storage = multer.diskStorage({
     }
 });
 
+// File Filter
+let fileFilter = function(req, file, cb) {
+    console.log("file : ", file);
+    // 파일 필터링
+    let typeArray = file.mimetype.split('/');
+    let fileType = typeArray[1];
+
+    console.log('fileType : ', fileType);
+
+    // 확장자가 동영상이라면
+    if(fileType == 'mp4') {
+        cb(null, true);
+    } else{
+        cb(null, false);
+    }
+}
+
 // 파일 저장 방식에 대해 설정한 정보를 upload란 변수에 담는다. 파일은 하나만 핸들링한다.
 const upload = multer({
-    storage: storage
+    storage: storage,
+    fileFilter: fileFilter
 }).single("file");
 
 
@@ -36,18 +54,7 @@ router.post('/uploadfiles', (req, res) => {
     console.log("/api/video/uploadfiles로 요청한 클라이언트 : ", clientIp);
 
     upload(req, res, (err) => {
-        console.log("req.file : ", req.file);
-        // 파일 필터링
-        let typeArray = req.file.filename.split('.');
-        let fileType = typeArray[1];
-
-        // 확장자가 동영상이 아니라면
-        if(fileType !== 'mp4' && fileType !== 'avi') {
-            return res.json({
-                success: false, 
-                err
-            });
-        }
+        console.log('req.file : ', req.file);
 
         if(err) {
             return res.json({
@@ -56,11 +63,19 @@ router.post('/uploadfiles', (req, res) => {
             });
         } 
 
-        return res.json({
-            success: true, 
-            url: req.file.path, 
-            fileName: req.file.filename
-        });
+        if(req.file) {
+            return res.json({
+                success: true, 
+                url: req.file.path, 
+                fileName: req.file.filename
+            });
+        } else {
+            return res.json({
+                success: false
+            });
+        }
+
+        
     })
 });
 

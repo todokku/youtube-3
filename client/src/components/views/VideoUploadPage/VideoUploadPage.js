@@ -30,7 +30,7 @@ function VideoUploadPage(props) {
     const [description, setDescription] = useState("");
     const [access, setAccess] = useState(0);  // 기본 값은 0으로 설정! (private : 0, public : 1)
     const [category, setCategory] = useState("Film & Animation");
-    const [filePath, setFilePath] = useState("");
+    const [filePath, setFilePath] = useState(undefined);
     const [duration, setDuration] = useState("");
     const [thumbnailPath, setThumbnailPath] = useState("");
 
@@ -54,7 +54,7 @@ function VideoUploadPage(props) {
     const onFileChange = (e) => {
         let formData = new FormData;
         let files = e.currentTarget.files;
-        
+
         console.log('file : ', files[0]);
 
         formData.append('file', files[0]);
@@ -86,7 +86,8 @@ function VideoUploadPage(props) {
                     }
                 });
             } else {
-                alert('비디오 업로드를 실패했습니다.');
+                alert('비디오 업로드를 실패했습니다. mp4 확장자만 지원합니다 !!');
+                setFilePath(undefined);
             }
         })
         .catch(error => {
@@ -98,30 +99,34 @@ function VideoUploadPage(props) {
         // 기존 이벤트 방지하고 아래에 우리가 정의한 하고 싶은 이벤트가 실행된다.
         e.preventDefault();
 
-        const variables = {
-            writer: user.userData._id,
-            title: videoTitle,
-            description: description,
-            privacy: access,
-            filePath: filePath,
-            category: category,
-            duration: duration,
-            thumbnail: thumbnailPath
-        };
-
-        axios.post('/api/video/uploadVideo', variables)
-        .then(response => {
-            if(response.data.success) {
-                message.success("성공적으로 업로드를 했습니다.");
-
-                // 업로드 성공했으므로 3초 후 홈으로 리다이렉트
-                setTimeout( () => {
-                    props.history.push('/');
-                }, 3000);
-            } else {
-                alert('비디오 업로드에 실패 했습니다');
-            }
-        })
+        if(filePath) {
+            const variables = {
+                writer: user.userData._id,
+                title: videoTitle,
+                description: description,
+                privacy: access,
+                filePath: filePath,
+                category: category,
+                duration: duration,
+                thumbnail: thumbnailPath
+            };
+    
+            axios.post('/api/video/uploadVideo', variables)
+            .then(response => {
+                if(response.data.success) {
+                    message.success("성공적으로 업로드를 했습니다.");
+    
+                    // 업로드 성공했으므로 3초 후 홈으로 리다이렉트
+                    setTimeout( () => {
+                        props.history.push('/');
+                    }, 3000);
+                } else {
+                    alert('비디오 업로드에 실패 했습니다');
+                }
+            });
+        } else {
+            alert('파일을 선택해 주십시오!');
+        }
     }
 
     return (
@@ -132,26 +137,13 @@ function VideoUploadPage(props) {
 
             <Form onSubmit={onSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {/* Drop zone */}
+                    {/* File upload zone */}
                     <input
                         type='file'
                         style={{ width: '300px', height: '240px', border: '1px solid lightgray', display: 'flex',
                         alignItems: 'center', justifyContent: 'center' }}
                         onChange={onFileChange}
                     />   
-                    {/* <DropZone
-                    onDrop={onDrop}
-                    multiple={false}
-                    maxSize={1000000000}
-                    >
-                    {({ getRootProps, getInputProps }) => (
-                        <div style={{ width: '300px', height: '240px', border: '1px solid lightgray', display: 'flex',
-                        alignItems: 'center', justifyContent: 'center' }} {...getRootProps()}>
-                            <input {...getInputProps()}/>
-                            <Icon type="plus" style={{ fontSize: '3rem' }} />
-                        </div>
-                    )}  
-                    </DropZone> */}
                     {/* Thumbnail */}
                     {/* 썸네일 자원 경로가 있을 때에만 이미지 띄우기! 그렇지 않으면 엑박이 뜬다. */}
                     {thumbnailPath && 

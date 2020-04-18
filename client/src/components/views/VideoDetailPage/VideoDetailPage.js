@@ -32,9 +32,9 @@ function VideoDetailPage(props) {
                         <video 
                             style={{ width: '100%' }} 
                             src={`${constants.URL_BACK}/${videoDetail.filePath}`}
+                            type="video/mp4"
                             controls 
                         />
-    
                         <List.Item
                             actions
                         >
@@ -56,7 +56,7 @@ function VideoDetailPage(props) {
     } else {
         return (
             <div>...loading</div>
-        )
+        );
     }
 }
 
