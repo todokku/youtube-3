@@ -32,7 +32,11 @@ const upload = multer({
 
 /* 클라이언트에서 받은 비디오 파일을 노드 서버 storage에 저장한다. */
 router.post('/uploadfiles', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/video/uploadfiles로 요청한 클라이언트 : ", clientIp);
+
     upload(req, res, (err) => {
+        console.log("req.file : ", req.file);
         // 파일 필터링
         let typeArray = req.file.filename.split('.');
         let fileType = typeArray[1];
@@ -63,6 +67,9 @@ router.post('/uploadfiles', (req, res) => {
 
 /* 썸네일 생성하고 비디오 러닝타임도 가져오기 */
 router.post('/thumbnail', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/video/thumbnail로 요청한 클라이언트 : ", clientIp);
+
     let filePath = "";
     let fileDuration = "";
 
@@ -102,8 +109,9 @@ router.post('/thumbnail', (req, res) => {
 
 /* MongoDB에 비디오 정보를 저장한다. */
 router.post('/uploadVideo', (req, res) => {
-    console.log('/uploadVideo');
-    console.log('req.body : ', req.body);
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/video/uploadVideo로 요청한 클라이언트 : ", clientIp);
+
     // 클라이언트가 보낸 json 데이터에 맞춰 그 정보를 해당 컬럼에 저장한다.
     const video = new Video(req.body);
 
@@ -118,6 +126,9 @@ router.post('/uploadVideo', (req, res) => {
 
 /* DB에 저장된 비디오들을 가져와서 클라이언트에 보낸다. */
 router.get('/getVideos', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/video/getVideos로 요청한 클라이언트 : ", clientIp);
+
     // DB의 Video 테이블에서 찾는 쿼리이다.
     Video.find()
     .populate('writer') // writer의 ref인 User의 정보를 가져온다. populate을 해주지 않으면 id만 가져온다.
@@ -139,6 +150,9 @@ router.get('/getVideos', (req, res) => {
 
 /* 사용자가 클릭한 특정 비디오 정보를 가져온다. */
 router.post('/getVideoDetail', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/video/getVideoDetail로 요청한 클라이언트 : ", clientIp);
+
     // _id 애트리뷰트를 이용해서 찾겠다.
     Video.findOne({"_id" : req.body.videoId})
     .populate("writer")

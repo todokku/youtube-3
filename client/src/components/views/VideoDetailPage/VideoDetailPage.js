@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
 
+import * as constants from '../../Config';
+
 function VideoDetailPage(props) {    
     const videoId = props.match.params.videoId;     // 현재 창의 url로부터 :videoId 추출!
     const variable = {
@@ -29,7 +31,7 @@ function VideoDetailPage(props) {
                     <div style={{ width: '100%', padding: '3rem 4rem' }}>
                         <video 
                             style={{ width: '100%' }} 
-                            src={`http://125.178.20.116:5000/${videoDetail.filePath}`}
+                            src={`${constants.URL_BACK}/${videoDetail.filePath}`}
                             controls 
                         />
     

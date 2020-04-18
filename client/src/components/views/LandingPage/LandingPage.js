@@ -4,6 +4,8 @@ import { Row, Col, Card, Icon, Avatar, Typography } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 
+import * as constants from '../../Config';
+
 const {Title} = Typography;
 const {Meta} = Card;
 
@@ -36,7 +38,7 @@ function LandingPage() {
                         style={{
                             width: '100%'
                         }}
-                        src={`http://125.178.20.116:5000/${video.thumbnail}`}
+                        src={`${constants.URL_BACK}/${video.thumbnail}`}
                         alt='thumbnail'
                     />
                     <div className="duration">

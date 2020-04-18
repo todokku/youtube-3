@@ -51,8 +51,11 @@ function VideoUploadPage(props) {
         setCategory(e.currentTarget.value);
     };
 
-    const onDrop = (files) => {
+    const onFileChange = (e) => {
         let formData = new FormData;
+        let files = e.currentTarget.files;
+        
+        console.log('file : ', files[0]);
 
         formData.append('file', files[0]);
         
@@ -130,7 +133,13 @@ function VideoUploadPage(props) {
             <Form onSubmit={onSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     {/* Drop zone */}
-                    <DropZone
+                    <input
+                        type='file'
+                        style={{ width: '300px', height: '240px', border: '1px solid lightgray', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center' }}
+                        onChange={onFileChange}
+                    />   
+                    {/* <DropZone
                     onDrop={onDrop}
                     multiple={false}
                     maxSize={1000000000}
@@ -142,7 +151,7 @@ function VideoUploadPage(props) {
                             <Icon type="plus" style={{ fontSize: '3rem' }} />
                         </div>
                     )}  
-                    </DropZone>
+                    </DropZone> */}
                     {/* Thumbnail */}
                     {/* 썸네일 자원 경로가 있을 때에만 이미지 띄우기! 그렇지 않으면 엑박이 뜬다. */}
                     {thumbnailPath && 
