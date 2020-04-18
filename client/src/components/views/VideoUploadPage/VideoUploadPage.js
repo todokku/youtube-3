@@ -12,8 +12,8 @@ const { Title } = Typography;
     map 함수를 통해서 그리기 위해 미리 배열로 정의하는 것이다.
 */
 const accessOptions = [
-    {value: 0, label: "Private"},
     {value: 1, label: "Public"},
+    {value: 0, label: "Private"}
 ];
 
 const categoryOptions = [
@@ -28,7 +28,7 @@ function VideoUploadPage(props) {
     const user = useSelector(state => state.user);  // 로그인된 user 정보(redux가 state에 관리)를 user 변수에 담는다.
     const [videoTitle, setVideoTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [access, setAccess] = useState(0);  // 기본 값은 0으로 설정! (private : 0, public : 1)
+    const [access, setAccess] = useState(1);  // 기본 값은 1으로 설정! (private : 0, public : 1)
     const [category, setCategory] = useState("Film & Animation");
     const [filePath, setFilePath] = useState(undefined);
     const [duration, setDuration] = useState("");
@@ -99,6 +99,7 @@ function VideoUploadPage(props) {
         // 기존 이벤트 방지하고 아래에 우리가 정의한 하고 싶은 이벤트가 실행된다.
         e.preventDefault();
 
+        // 로컬에 파일 저장이 잘 되었다면 DB에 저장한다.
         if(filePath) {
             const variables = {
                 writer: user.userData._id,
@@ -132,7 +133,8 @@ function VideoUploadPage(props) {
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <Title level={2}>VideoUploadPage</Title>
+                <Title level={2}>Video Upload Page</Title> 
+                <Title level={2}>(.mp4만 올릴 것!)</Title>
             </div>
 
             <Form onSubmit={onSubmit}>

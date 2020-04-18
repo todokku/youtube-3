@@ -9,6 +9,9 @@ import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import VideoUploadPage from "./views/VideoUploadPage/VideoUploadPage";
 import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage";
+import ImageUploadPage from "./views/ImageUploadPage/ImageUploadPage";
+import ImagePage from "./views/ImagePage/ImagePage";
+import ImageDetailPage from "./views/ImageDetailPage/ImageDetailPage";
 
 //  null   아무나 접근 가능
 //  true   로그인 한 사람만 들어간다.
@@ -24,7 +27,10 @@ function App() {
           <Route exact path="/login" component={Auth(LoginPage, false)} />  
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />
-          <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />  
+          <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />
+          <Route exact path="/image/upload" component={Auth(ImageUploadPage, true)} />
+          <Route exact path="/images" component={Auth(ImagePage, null)} />    
+          <Route exact path="/images/:imageId" component={Auth(ImageDetailPage, null)} />    
         </Switch>
       </div>
       <Footer />

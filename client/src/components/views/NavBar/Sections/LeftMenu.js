@@ -19,6 +19,9 @@ function LeftMenu(props) {
         <Menu.Item key="setting:4">Option 4</Menu.Item>
       </MenuItemGroup>
     </SubMenu>
+    <Menu.Item key="pictures">
+      <a href="/images">Pictures</a>
+    </Menu.Item>
   </Menu>
   )
 }
