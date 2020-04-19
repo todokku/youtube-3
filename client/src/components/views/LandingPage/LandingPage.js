@@ -18,12 +18,11 @@ function LandingPage() {
         axios.get('/api/video/getVideos')
         .then(response => {
             if(response.data.success) {
-                console.log(response.data);
                 setVideos(response.data.videos);
             } else {
                 alert('비디오 가져오기를 실패 했습니다.');
             }
-        })
+        });
     }, []);
 
     const renderCards = videos.map((video, idx) => {
@@ -67,7 +66,7 @@ function LandingPage() {
 
     return (
         <div style={{width: '85%', margin: '3rem auto'}}>
-            <Title level={2}> Welcome to kyomin's APP !! </Title>
+            <Title level={2}> Welcome to KyoTube !! (작업 중, 아직 미완성ㅠ) </Title>
             <hr/>
             <Row gutter={[32, 16]}>
                 {renderCards}
