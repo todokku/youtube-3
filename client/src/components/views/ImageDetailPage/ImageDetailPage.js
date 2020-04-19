@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
+import SideImage from './Sections/SideImage/SideImage';
 
 import * as constants from '../../Config';
 
@@ -48,7 +49,7 @@ function ImageDetailPage(props) {
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
-                    Side Images
+                    <SideImage />
                 </Col>
             </Row>
         );

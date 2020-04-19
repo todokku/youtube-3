@@ -4,6 +4,8 @@ import DropZone from 'react-dropzone';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
+import * as constants from '../../Config';
+
 const { TextArea } = Input;
 const { Title } = Typography;
 
@@ -22,12 +24,10 @@ function ImageUploadPage(props) {
         setDescription(e.currentTarget.value);
     };
 
-    const onFileChange = (e) => {
-        let formData = new FormData;
+    const onFileChange = (e) => { 
         let files = e.currentTarget.files;
-
-        console.log('file : ', files[0]);
-
+        let formData = new FormData;
+        
         formData.append('file', files[0]);
 
         const config = {
@@ -38,7 +38,6 @@ function ImageUploadPage(props) {
         .then(response => {
             if(response.data.success) {
                 console.log(response.data);
-
                 setFilePath(response.data.url);
             } else {
                 alert('이미지 업로드를 실패했습니다.');
@@ -54,6 +53,7 @@ function ImageUploadPage(props) {
         // 기존 이벤트 방지하고 아래에 우리가 정의한 하고 싶은 이벤트가 실행된다.
         e.preventDefault();
 
+        // 파일 선택이 잘 된 경우에만 DB에 저장한다.
         if(filePath) {
             const variables = {
                 writer: user.userData._id,
@@ -67,10 +67,10 @@ function ImageUploadPage(props) {
                 if(response.data.success) {
                     message.success("성공적으로 업로드를 했습니다.");
     
-                    // 업로드 성공했으므로 3초 후 홈으로 리다이렉트
+                    // 업로드 성공했으므로 1.5초 후 홈으로 리다이렉트
                     setTimeout( () => {
                         props.history.push('/');
-                    }, 3000);
+                    }, 1500);
                 } else {
                     alert('사진 업로드에 실패 했습니다');
                 }
@@ -87,12 +87,10 @@ function ImageUploadPage(props) {
             </div>
 
             <Form onSubmit={onSubmit}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
                     {/* File upload zone */}
                     <input
                         type='file'
-                        style={{ width: '300px', height: '300px', border: '1px solid lightgray', display: 'flex',
-                        alignItems: 'center', justifyContent: 'center' }}
                         onChange={onFileChange}
                     />   
                     {/* Thumbnail */}
@@ -100,7 +98,7 @@ function ImageUploadPage(props) {
                     {filePath && 
                         <div>
                             <img 
-                                src={`http://localhost:5000/${filePath}`} // 현재 클라이언트와 다른 주소로 서버가 사용되므로 앞에 도메인 명시!
+                                src={`${constants.URL_BACK}/${filePath}`} // 현재 클라이언트와 다른 주소로 서버가 사용되므로 앞에 도메인 명시!
                                 alt="image" 
                                 style={{ width: '300px', height: '300px' }}
                             />

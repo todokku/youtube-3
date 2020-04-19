@@ -4,6 +4,8 @@ import DropZone from 'react-dropzone';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
+import * as constants from '../../Config';
+
 const { TextArea } = Input;
 const { Title } = Typography;
 
@@ -138,12 +140,10 @@ function VideoUploadPage(props) {
             </div>
 
             <Form onSubmit={onSubmit}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
                     {/* File upload zone */}
                     <input
                         type='file'
-                        style={{ width: '300px', height: '240px', border: '1px solid lightgray', display: 'flex',
-                        alignItems: 'center', justifyContent: 'center' }}
                         onChange={onFileChange}
                     />   
                     {/* Thumbnail */}
@@ -151,7 +151,7 @@ function VideoUploadPage(props) {
                     {thumbnailPath && 
                         <div>
                             <img 
-                                src={`http://localhost:5000/${thumbnailPath}`} // 현재 클라이언트와 다른 주소로 서버가 사용되므로 앞에 도메인 명시!
+                                src={`${constants.URL_BACK}/${thumbnailPath}`} // 현재 클라이언트와 다른 주소로 서버가 사용되므로 앞에 도메인 명시!
                                 alt="thumbnail" 
                             />
                         </div>

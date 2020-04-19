@@ -16,7 +16,6 @@ function ImagePage() {
         axios.get('/api/image/getImages')
         .then(response => {
             if(response.data.success) {
-                console.log(response.data);
                 setImages(response.data.images);
             } else {
                 alert('이미지 가져오기를 실패 했습니다.');
