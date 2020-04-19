@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 // 스키마 정의(테이블 어트리뷰트 정의)
 const videoSchema = mongoose.Schema({
     writer: {
-        type: Schema.Types.ObjectId,    // 작성자의 id를 넣는다.
+        type: Schema.Types.ObjectId,    // 작성하는 User의 id를 넣는다. 
         ref: 'User'     // id만 넣으면 User 모델에 가서 모든 정보를 불러올 수 있다.
     },
     title: {

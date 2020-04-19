@@ -66,7 +66,7 @@ function LandingPage() {
 
     return (
         <div style={{width: '85%', margin: '3rem auto'}}>
-            <Title level={2}> Welcome to KyoTube !! (작업 중, 아직 미완성ㅠ) </Title>
+            <Title level={2}> Welcome to KyoTube !! (작업 중, 아직 미완성ㅠ 이용 시 수정할 부분 의견 있으면 말해주세요!) </Title>
             <hr/>
             <Row gutter={[32, 16]}>
                 {renderCards}

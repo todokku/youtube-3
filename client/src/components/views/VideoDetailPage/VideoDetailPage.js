@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
+import Subscribe from './Sections/Subscribe';
 
 import * as constants from '../../Config';
 
@@ -35,9 +36,10 @@ function VideoDetailPage(props) {
                             src={`${constants.URL_BACK}/${videoDetail.filePath}`}
                             type="video/mp4"
                             autoPlay
+                            controls
                         />
                         <List.Item
-                            actions
+                            actions={[<Subscribe userTo={videoDetail.writer._id} />]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.image} />}
