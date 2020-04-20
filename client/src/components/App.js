@@ -12,6 +12,7 @@ import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage";
 import ImageUploadPage from "./views/ImageUploadPage/ImageUploadPage";
 import ImagePage from "./views/ImagePage/ImagePage";
 import ImageDetailPage from "./views/ImageDetailPage/ImageDetailPage";
+import SubscriptionPage from "./views/SubscriptionPage/SubscriptionPage";
 
 //  null   아무나 접근 가능
 //  true   로그인 한 사람만 들어간다.
@@ -30,7 +31,8 @@ function App() {
           <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />
           <Route exact path="/image/upload" component={Auth(ImageUploadPage, true)} />
           <Route exact path="/images" component={Auth(ImagePage, null)} />    
-          <Route exact path="/images/:imageId" component={Auth(ImageDetailPage, null)} />    
+          <Route exact path="/images/:imageId" component={Auth(ImageDetailPage, null)} />
+          <Route exact path="/subscription" component={Auth(SubscriptionPage, null)} />
         </Switch>
       </div>
       <Footer />

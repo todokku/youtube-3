@@ -52,4 +52,49 @@ router.post('/subscribed', (req, res) => {
     });
 });
 
+
+/* 구독 취소 */
+router.post('/unSubscribe', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/subscribe/subscribed로 요청한 클라이언트 : ", clientIp);
+
+    Subscriber.findOneAndDelete({ userTo: req.body.userTo, userFrom: req.body.userFrom })
+    .exec((err, doc) => {
+        if(err) {
+            return res.status(400).json({
+                success: false,
+                err
+            });
+        }
+        
+        res.status(200).json({
+            success: true,
+            doc
+        });
+    });
+});
+
+
+/* 구독 하기 */
+router.post('/subscribe', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/subscribe/subscribe로 요청한 클라이언트 : ", clientIp);
+
+    const subscribe = new Subscriber(req.body);
+
+    subscribe.save((err, doc) => {
+        if(err) {
+            return res.status(400).json({
+                success: false,
+                err
+            });
+        }
+        
+        res.status(200).json({
+            success: true,
+            doc
+        });
+    });
+});
+
 module.exports = router;

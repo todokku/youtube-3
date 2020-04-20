@@ -9,13 +9,16 @@ import * as constants from '../../Config';
 const {Title} = Typography;
 const {Meta} = Card;
 
-function LandingPage() {
+function SubscriptionPage() {
     const [videos, setVideos] = useState([]);
 
-    // 돔이 로드되자마자 무엇을 한 번 할것인지 정의한다.
-    // 클래스 컴포넌트의 componentDidMount와 같은 역할!
     useEffect(() => {
-        axios.get('/api/video/getVideos')
+
+        const subscriptionVariables = {
+            userFrom: localStorage.getItem('userId')
+        };
+
+        axios.post('/api/video/getSubscriptionVideos', subscriptionVariables)
         .then(response => {
             if(response.data.success) {
                 setVideos(response.data.videos);
@@ -66,7 +69,7 @@ function LandingPage() {
 
     return (
         <div style={{width: '85%', margin: '3rem auto'}}>
-            <Title level={2} style={{ color: '#1890ff' }}> Welcome to KyoTube !! (미완성이라 아직 작업 중...) </Title>
+            <Title level={2} style={{ color: '#1890ff' }}> Subscription </Title>
             <hr/>
             <Row gutter={[32, 16]}>
                 {renderCards}
@@ -75,4 +78,4 @@ function LandingPage() {
     );
 }
 
-export default LandingPage
+export default SubscriptionPage

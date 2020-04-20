@@ -11,8 +11,8 @@ const { Title } = Typography;
 
 function ImageUploadPage(props) {
     const user = useSelector(state => state.user);  // 로그인된 user 정보(redux가 state에 관리)를 user 변수에 담는다.
-    const [imageTitle, setImageTitle] = useState("");
-    const [description, setDescription] = useState("");
+    const [imageTitle, setImageTitle] = useState(undefined);
+    const [description, setDescription] = useState(undefined);
     const [filePath, setFilePath] = useState(undefined);
 
     /* 이벤트 함수들 정의! */
@@ -53,8 +53,8 @@ function ImageUploadPage(props) {
         // 기존 이벤트 방지하고 아래에 우리가 정의한 하고 싶은 이벤트가 실행된다.
         e.preventDefault();
 
-        // 파일 선택이 잘 된 경우에만 DB에 저장한다.
-        if(filePath) {
+        // 모든 항목이 기재된 경우에만 DB에 저장한다.
+        if(filePath && imageTitle && description) {
             const variables = {
                 writer: user.userData._id,
                 title: imageTitle,
@@ -76,7 +76,7 @@ function ImageUploadPage(props) {
                 }
             })
         } else {
-            alert('파일을 선택해 주십시오!');
+            alert('모든 항목을 채우십시오!');
         }
     }
 
@@ -92,6 +92,7 @@ function ImageUploadPage(props) {
                     <input
                         type='file'
                         onChange={onFileChange}
+                        required
                     />   
                     {/* Thumbnail */}
                     {/* 썸네일 자원 경로가 있을 때에만 이미지 띄우기! 그렇지 않으면 엑박이 뜬다. */}
@@ -112,6 +113,7 @@ function ImageUploadPage(props) {
                 <Input
                     onChange={onTitleChange}
                     value={imageTitle}
+                    required
                 />
 
                 <br />
@@ -120,6 +122,7 @@ function ImageUploadPage(props) {
                 <TextArea
                     onChange={onDescriptionChange}
                     value={description}
+                    required
                 />
 
                 <br />
