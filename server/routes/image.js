@@ -103,6 +103,7 @@ router.get('/getImages', (req, res) => {
     // DB의 Video 테이블에서 찾는 쿼리이다.
     Image.find()
     .populate('writer') // writer의 ref인 User의 정보를 가져온다. populate을 해주지 않으면 id만 가져온다.
+    .sort( {"createdAt": -1} )  // 날짜 순 내림차순 정렬 => 최신 올린 것이 먼저 올라온다.
     .exec((err, images) => {
         if(err) {
             return res.status(400).json({

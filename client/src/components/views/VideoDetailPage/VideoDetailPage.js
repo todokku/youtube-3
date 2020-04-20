@@ -26,7 +26,10 @@ function VideoDetailPage(props) {
         })
     }, []);
 
+    // 데이터베이스에서 불러오는게 화면이 렌더링 하는 것보다 늦어질 수 있으므로!
     if(videoDetail.writer) {
+        const subscribeButton = videoDetail.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={videoDetail.writer._id} />;
+
         return (
             <Row gutter={[16, 16]}>
                 <Col lg={18} xs={24}>
@@ -39,7 +42,7 @@ function VideoDetailPage(props) {
                             controls
                         />
                         <List.Item
-                            actions={[<Subscribe userTo={videoDetail.writer._id} />]}
+                            actions={[ subscribeButton ]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.image} />}

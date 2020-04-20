@@ -9,9 +9,6 @@ const { auth } = require("../middleware/auth");
 //=================================
 
 router.get("/auth", auth, (req, res) => {
-    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
-    console.log("/api/users/auth로 요청한 클라이언트 : ", clientIp);
-
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
