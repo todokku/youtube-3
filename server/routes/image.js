@@ -136,6 +136,18 @@ router.post('/getImageDetail', (req, res) => {
             });
         }
 
+        // 조회수 1만큼 증가
+        imageDetail.views += 1;
+        Image.update( {_id: req.body.imageId}, {$set: {views: imageDetail.views}} )    // 실제 DB에 반영
+        .exec((err, image) => {
+            if(err) {
+                return res.status(400).json({
+                    success: false,
+                    err
+                });
+            }
+        });
+
         res.status(200).json({
             success: true,
             imageDetail

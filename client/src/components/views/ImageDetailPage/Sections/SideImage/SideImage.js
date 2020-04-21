@@ -36,6 +36,7 @@ function SideImage() {
                         <a href={`/images/${image._id}`} style={{ color: 'gray' }}>
                             <span style={{ fontSize: '1rem', color: 'black' }}> {image.title} </span><br />
                             <span>{image.writer.name}</span><br />
+                            <span>조회수 {image.views}회</span><br />
                         </a>
                     </div>
                 </div>

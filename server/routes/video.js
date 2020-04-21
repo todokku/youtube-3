@@ -180,6 +180,18 @@ router.post('/getVideoDetail', (req, res) => {
             });
         }
 
+        // 조회수 1만큼 증가
+        videoDetail.views += 1;
+        Video.update( {_id: req.body.videoId}, {$set: {views: videoDetail.views}} )    // 실제 DB에 반영
+        .exec((err, video) => {
+            if(err) {
+                return res.status(400).json({
+                    success: false,
+                    err
+                });
+            }
+        });
+
         res.status(200).json({
             success: true,
             videoDetail

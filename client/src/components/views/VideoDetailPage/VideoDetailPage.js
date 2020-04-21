@@ -3,6 +3,7 @@ import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import Comment from './Sections/Comment';
 
 import * as constants from '../../Config';
 
@@ -15,6 +16,7 @@ function VideoDetailPage(props) {
     const [videoDetail, setVideoDetail] = useState({});
 
     useEffect(() => {
+        
         axios.post('/api/video/getVideoDetail', variable)
         .then(response => {
             if(response.data.success) {
@@ -23,7 +25,8 @@ function VideoDetailPage(props) {
             } else {
                 alert('비디오 가져오기를 실패 했습니다.');
             }
-        })
+        });
+        
     }, []);
 
     // 데이터베이스에서 불러오는게 화면이 렌더링 하는 것보다 늦어질 수 있으므로!
@@ -52,6 +55,7 @@ function VideoDetailPage(props) {
                         </List.Item>
     
                         {/* Comments */}
+                        <Comment />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>

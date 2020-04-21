@@ -21,6 +21,10 @@ const imageSchema = mongoose.Schema({
     },
     filePath: {
         type: String
+    },
+    views: {
+        type: Number,
+        default: 0
     }
 }, { timestamps: true });   // 타임 스탬프로 인해 만든 날짜와 수정 날짜가 표시된다.
 
