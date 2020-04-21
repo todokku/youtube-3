@@ -61,7 +61,7 @@ function ImagePage() {
 
     return (
         <div style={{width: '85%', margin: '3rem auto'}}>
-            <Title level={2}> kyomin's 이미지 저장소 </Title>
+            <Title level={2} style={{ color: '#1890ff' }}>KyoTube Image List</Title>
             <hr/>
             <Row gutter={[32, 16]}>
                 {renderCards}

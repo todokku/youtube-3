@@ -66,8 +66,7 @@ function LandingPage() {
 
     return (
         <div style={{width: '85%', margin: '3rem auto'}}>
-            <Title level={2} style={{ color: '#1890ff' }}>Welcome to KyoTube</Title>
-            <Title level={4} style={{ color: 'red' }}> 미완성이라 아직 작업 중... 코멘트 기능, 좋아요 / 싫어요 기능 추가 요함! </Title>
+            <Title level={2} style={{ color: '#1890ff' }}>KyoTube Video List</Title>
             <hr/>
             <Row gutter={[32, 16]}>
                 {renderCards}

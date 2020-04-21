@@ -14,6 +14,7 @@ function VideoDetailPage(props) {
     };
 
     const [videoDetail, setVideoDetail] = useState({});
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         
@@ -26,8 +27,22 @@ function VideoDetailPage(props) {
                 alert('비디오 가져오기를 실패 했습니다.');
             }
         });
-        
+
+        axios.post('/api/comment/getComments', variable)
+        .then(response => {
+            if(response.data.success) {
+                console.log("response.data.comments : ", response.data.comments);
+                setComments(response.data.comments);
+            } else {
+                alert('코멘트 정보 가져오기를 실패 했습니다.');
+            }
+        });
+
     }, []);
+
+    const refreshFunction = (newComment) => {
+        setComments(comments.concat(newComment));
+    }
 
     // 데이터베이스에서 불러오는게 화면이 렌더링 하는 것보다 늦어질 수 있으므로!
     if(videoDetail.writer) {
@@ -55,7 +70,11 @@ function VideoDetailPage(props) {
                         </List.Item>
     
                         {/* Comments */}
-                        <Comment />
+                        <Comment 
+                            videoId={videoId}
+                            comments={comments}
+                            refreshFunction={refreshFunction}
+                        />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
