@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment';
 
 function Comment(props) {
     const videoId = props.videoId;
@@ -28,6 +29,7 @@ function Comment(props) {
             .then(response => {
                 if(response.data.success) {
                     props.refreshFunction(response.data.result);
+                    setCommentValue("");
                 } else {
                     alert('커멘트를 저장하지 못했습니다.');
                 }
@@ -45,10 +47,22 @@ function Comment(props) {
 
             {/* Comment Lists */}
             {props.comments && props.comments.map((comment, index) => { 
-                return !comment.responseTo && <SingleComment 
-                    videoId={videoId}
-                    comment={comment}
-                />
+                // 답글이 아닌 첫 댓글들만 뿌려준다.(responseTo가 없으므로!!)
+                return (!comment.responseTo &&
+                <React.Fragment> 
+                    <SingleComment 
+                        videoId={videoId}
+                        comment={comment}
+                        refreshFunction={props.refreshFunction}
+                    />
+                    <ReplyComment 
+                        comments={props.comments}
+                        parentCommentId={comment._id}
+                        videoId={videoId}
+                        refreshFunction={props.refreshFunction}
+                    />
+                </React.Fragment>
+                );
             })}
             
             {/* Root Comment Form */}

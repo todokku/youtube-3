@@ -50,7 +50,7 @@ function ImagePage() {
                     description=""
                 />
                 <span>{image.writer.name}</span><br/>
-                <span style={{marginLeft: '3rem'}}>조회수 {image.views}회</span> - <span>{moment(image.createdAt).format("MMM Do YY")}</span>
+                <span style={{marginLeft: '3rem'}}>조회수 {image.views}회</span> - <span>{moment(image.createdAt).format("YYYY. MM. DD")}</span>
             </Col>
         } else {
             return (

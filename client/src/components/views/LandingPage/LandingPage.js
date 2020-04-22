@@ -55,7 +55,7 @@ function LandingPage() {
                     description=""
                 />
                 <span>{video.writer.name}</span><br/>
-                <span style={{marginLeft: '3rem'}}>조회수 {video.views}회</span> - <span>{moment(video.createdAt).format("MMM Do YY")}</span>
+                <span style={{marginLeft: '3rem'}}>조회수 {video.views}회</span> - <span>{moment(video.createdAt).format("YYYY. MM. DD")}</span>
             </Col>
         } else {
             return (

@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
 import { Comment, Avatar, Button, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import moment from 'moment';
 
 const { TextArea } = Input;
 
@@ -21,25 +22,29 @@ function SingleComment(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        alert('댓글의 댓글 기능은 아직 구현 못했으 ㅠㅠ');
-        // const variables = {
-        //     content: commentValue,
-        //     writer: user.userData._id,
-        //     postId: props.videoId
-        // };
+        const variables = {
+            content: commentValue,
+            writer: user.userData._id,
+            postId: props.videoId,
+            responseTo: props.comment._id
+        };
 
-        // axios.post('/api/comment/saveComment', variables)
-        // .then(response => {
-        //     if(response.data.success) {
-        //         console.log('comment data : ', response.data);
-        //     } else {
-        //         alert('커멘트를 저장하지 못했습니다.');
-        //     }
-        // });
+        axios.post('/api/comment/saveComment', variables)
+        .then(response => {
+            if(response.data.success) {
+                setCommentValue("");
+                setOpenReply(false);
+                props.refreshFunction(response.data.result);
+            } else {
+                alert('커멘트를 저장하지 못했습니다.');
+            }
+        });
     }
 
     const actions = [
-        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">답글</span>
+        !openReply ? 
+        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">답글</span> :
+        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">접기</span>
     ]
 
     return (
@@ -47,6 +52,7 @@ function SingleComment(props) {
             <Comment
                 actions={actions}
                 author={props.comment.writer.name}
+                datetime={moment(props.comment.createdAt).format("YYYY. MM. DD")}
                 avatar={<Avatar src={props.comment.writer.image} alt />}
                 content={<p>{props.comment.content}</p>}
             />
@@ -59,7 +65,7 @@ function SingleComment(props) {
                         placeholder="댓글을 작성해 주세요"
                     />
                     <br />
-                    <button style={{ width: '20%', height: '52px' }} onClick={handleSubmit}>댓글 달기~</button>
+                    <button style={{ width: '20%', height: '52px' }} onClick={handleSubmit}>댓글</button>
                 </form>
             }
         </div>

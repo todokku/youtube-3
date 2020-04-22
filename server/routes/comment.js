@@ -9,6 +9,9 @@ const { Comment } = require("../models/Comment");
 
 
 router.post('/saveComment', (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+    console.log("/api/comment/saveComment로 요청한 클라이언트 : ", clientIp);
+
     const comment = new Comment(req.body);
 
     comment.save((err, comment) => {
