@@ -5,7 +5,7 @@ import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
 
 function Comment(props) {
-    const videoId = props.videoId;
+    const imageId = props.imageId;
     const user = useSelector(state => state.user);
     const [commentValue, setCommentValue] = useState("");
 
@@ -19,11 +19,11 @@ function Comment(props) {
         const variables = {
             content: commentValue,
             writer: user.userData._id,
-            postId: videoId
+            imageId: imageId
         };
 
         if(user.userData.isAuth) {
-            axios.post('/api/comment/saveVideoComment', variables)
+            axios.post('/api/comment/saveImageComment', variables)
             .then(response => {
                 if(response.data.success) {
                     props.refreshFunction(response.data.result);
@@ -49,14 +49,14 @@ function Comment(props) {
                 return (!comment.responseTo &&
                 <React.Fragment> 
                     <SingleComment 
-                        videoId={videoId}
+                        imageId={imageId}
                         comment={comment}
                         refreshFunction={props.refreshFunction}
                     />
                     <ReplyComment 
                         comments={props.comments}
                         parentCommentId={comment._id}
-                        videoId={videoId}
+                        imageId={imageId}
                         refreshFunction={props.refreshFunction}
                     />
                 </React.Fragment>

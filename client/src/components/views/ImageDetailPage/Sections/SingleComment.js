@@ -25,11 +25,11 @@ function SingleComment(props) {
         const variables = {
             content: commentValue,
             writer: user.userData._id,
-            postId: props.videoId,
+            imageId: props.imageId,
             responseTo: props.comment._id
         };
 
-        axios.post('/api/comment/saveVideoComment', variables)
+        axios.post('/api/comment/saveImageComment', variables)
         .then(response => {
             if(response.data.success) {
                 setCommentValue("");

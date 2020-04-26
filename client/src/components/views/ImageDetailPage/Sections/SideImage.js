@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 
-import * as constants from '../../../../Config';
+import * as constants from '../../../Config';
 
 function SideImage() {
     const [sideImages, setSideImages] = useState([]);

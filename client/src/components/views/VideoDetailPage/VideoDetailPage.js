@@ -21,17 +21,15 @@ function VideoDetailPage(props) {
         axios.post('/api/video/getVideoDetail', variable)
         .then(response => {
             if(response.data.success) {
-                console.log('response.data.videoDetail : ', response.data.videoDetail);
                 setVideoDetail(response.data.videoDetail);
             } else {
                 alert('비디오 가져오기를 실패 했습니다.');
             }
         });
 
-        axios.post('/api/comment/getComments', variable)
+        axios.post('/api/comment/getVideoComments', variable)
         .then(response => {
             if(response.data.success) {
-                console.log("response.data.comments : ", response.data.comments);
                 setComments(response.data.comments);
             } else {
                 alert('코멘트 정보 가져오기를 실패 했습니다.');

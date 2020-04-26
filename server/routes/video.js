@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Video } = require("../models/Video");
 const { Subscriber } = require("../models/Subscriber");
+const { Comment } = require("../models/Comment");
 
 const { auth } = require("../middleware/auth");
 const multer = require('multer');
@@ -155,7 +156,7 @@ router.get('/getVideos', (req, res) => {
                 err
             });
         }
-        
+
         res.status(200).json({
             success: true,
             videos

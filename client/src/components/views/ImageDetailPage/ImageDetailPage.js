@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
-import SideImage from './Sections/SideImage/SideImage';
+import SideImage from './Sections/SideImage';
+import Comment from './Sections/Comment';
 
 import * as constants from '../../Config';
 
@@ -12,18 +13,33 @@ function ImageDetailPage(props) {
     };
 
     const [imageDetail, setImageDetail] = useState({});
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
+
         axios.post('/api/image/getImageDetail', variable)
         .then(response => {
             if(response.data.success) {
-                console.log('response.data.imageDetail : ', response.data.imageDetail);
                 setImageDetail(response.data.imageDetail);
             } else {
                 alert('이미지 불러오기를 실패 했습니다.');
             }
-        })
+        });
+
+        axios.post('/api/comment/getImageComments', variable)
+        .then(response => {
+            if(response.data.success) {
+                setComments(response.data.comments);
+            } else {
+                alert('코멘트 정보 가져오기를 실패 했습니다.');
+            }
+        });
+
     }, []);
+
+    const refreshFunction = (newComment) => {
+        setComments(comments.concat(newComment));
+    }
 
     if(imageDetail.writer) {
         return (
@@ -46,6 +62,11 @@ function ImageDetailPage(props) {
                         </List.Item>
     
                         {/* Comments */}
+                        <Comment
+                            imageId={imageId}
+                            comments={comments}
+                            refreshFunction={refreshFunction}
+                        />
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
