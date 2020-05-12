@@ -40,7 +40,7 @@ function Comment(props) {
     return (
         <div>
             <br />
-            <p>댓글</p>
+                <p>댓글 {props.comments.length}개</p>
             <hr />
 
             {/* Comment Lists */}

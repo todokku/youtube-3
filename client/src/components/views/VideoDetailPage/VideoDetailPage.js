@@ -4,6 +4,7 @@ import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
+import moment from 'moment';
 
 import * as constants from '../../Config';
 
@@ -57,15 +58,26 @@ function VideoDetailPage(props) {
                             autoPlay
                             controls
                         />
+
                         <List.Item
                             actions={[ subscribeButton ]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.image} />}
                                 title={videoDetail.writer.name}
-                                description={videoDetail.description}
+                                description={videoDetail.title}
                             />
+
                         </List.Item>
+
+                        <List.Item>
+                            <List.Item.Meta
+                                title={videoDetail.description}
+                                description={`조회수 ${videoDetail.views}회 • ${moment(videoDetail.createdAt).format("YYYY. MM. DD")}`}
+                            />
+
+                        </List.Item>
+                        <hr/>
     
                         {/* Comments */}
                         <Comment 
