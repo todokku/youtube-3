@@ -3,6 +3,7 @@ import { Comment, Avatar, Button, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
+import LikeDislikes from './LikeDislikes';
 
 const { TextArea } = Input;
 
@@ -42,6 +43,7 @@ function SingleComment(props) {
     }
 
     const actions = [
+        <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment.id}/>,
         !openReply ? 
         <span onClick={onClickReplyOpen} key="comment-basic-reply-to">답글</span> :
         <span onClick={onClickReplyOpen} key="comment-basic-reply-to">접기</span>

@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
 import { Row, Col, List, Avatar } from 'antd';
 import axios from 'axios';
+import moment from 'moment';
+
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
-import moment from 'moment';
+import LikeDislikes from './Sections/LikeDislikes';
 
 import * as constants from '../../Config';
 
@@ -60,7 +62,11 @@ function VideoDetailPage(props) {
                         />
 
                         <List.Item
-                            actions={[ subscribeButton ]}
+                            actions={[<LikeDislikes
+                                video 
+                                userId={localStorage.getItem('userId')}
+                                vdieoId={videoId}
+                            />, subscribeButton ]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.image} />}
@@ -77,7 +83,6 @@ function VideoDetailPage(props) {
                             />
 
                         </List.Item>
-                        <hr/>
     
                         {/* Comments */}
                         <Comment 
