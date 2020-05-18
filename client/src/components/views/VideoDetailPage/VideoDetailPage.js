@@ -65,7 +65,7 @@ function VideoDetailPage(props) {
                             actions={[<LikeDislikes
                                 video 
                                 userId={localStorage.getItem('userId')}
-                                vdieoId={videoId}
+                                videoId={videoId}
                             />, subscribeButton ]}
                         >
                             <List.Item.Meta

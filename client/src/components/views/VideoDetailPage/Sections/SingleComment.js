@@ -43,7 +43,7 @@ function SingleComment(props) {
     }
 
     const actions = [
-        <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment.id}/>,
+        <LikeDislikes userId={localStorage.getItem('userId')} commentId={props.comment._id}/>,
         !openReply ? 
         <span onClick={onClickReplyOpen} key="comment-basic-reply-to">답글</span> :
         <span onClick={onClickReplyOpen} key="comment-basic-reply-to">접기</span>
